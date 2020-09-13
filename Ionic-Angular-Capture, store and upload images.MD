@@ -52,7 +52,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 HTML
 ```html
 <ion-list>
-  <ion-item *ngFor="let img pg images; index as pos">
+  <ion-item *ngFor="let img of images; index as pos">
     <ion-thumbnail slot="start">
       <ion-img [src]="img.path"></ion-img>
     </ion-thumbnail>
@@ -106,7 +106,7 @@ import { File, FileEntry } from '@ionic-native/File/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx'
 import {HttpClient} from '@angular/common/http';
 import {WebView} from '@ionic-native/ionic-webview/ngx';
-import { Storage } from '@ionix/storage';
+import { Storage } from '@ionic/storage';
 import { finalize } from 'rxjs/operators';
 
 const STORAGE_KEY = 'my_images'; 
@@ -130,14 +130,14 @@ constructor(
 
 Array para armazenar as imagens
 ```ts
-  images=[];s
+  images=[];
 ```
 
 Se a platforma estiver pronta iniciaremos nossa função para carregar os dados do Storage.
 ```ts
 
 ngOninit(){
-  this.plt.ready().then(() -> {
+  this.plt.ready().then(() => {
     this.loadStoredImages();
   });
 }
@@ -146,7 +146,7 @@ ngOninit(){
 Pega imagens do Storage.
 
 ```js 
-loadStoredImage(){
+loadStoredImages(){
   // em STORAGE_KEY contém o nome de um arquivo,tratamos como um referência.Por ex: img.jpg, 
   this.storage.get(STORAGE_KEY).then(images => {
     if(images){
@@ -298,7 +298,7 @@ deleteImage(imgEntry, position){
  this.storage.get(STORAGE_KEY).then(images =>{
   let arr = JSON.parse(images);
   let filtered = arr.filter(name => name != imgEntry.name);
-  this.storage.set(STORAGE_KEY, JSON.stringify(filteres)):
+  this.storage.set(STORAGE_KEY, JSON.stringify(filtered));
   
   var correctPath = imgEntry.filePath.substr(0, imgEntry.filePath.lastIndexOf('/') + 1);
   
