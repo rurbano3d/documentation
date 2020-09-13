@@ -18,6 +18,7 @@ O que vamos fazer:
 @ionic-native/file
 @ionic-native/ionic-webview
 @ionic/storage
+@ionic-native/file-path
 ```
 
 
@@ -27,6 +28,7 @@ ionic cordova plugin add cordova-plugin-camera
 ionic cordova plugin add cordova-plugin-file
 ionic cordova plugin add cordova-plugin-ionic-webview
 ionic cordova plugin add cordova-sqlite-storage
+ionic cordova plugin add cordova-plugin-filepath
 ```
 
 No app.module.ts
@@ -37,11 +39,12 @@ import {HttpCientModule} from '@angulat/common/http';
 import {Camera} from '@ionic-native/Camera/ngx';
 import {File} from '@ionic-native/File/ngx';
 import {WebView} from '@ionic-native/ionic-webview/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
 
 @NgModule({
   //.....
   imports:[IonicStorageModule.forRoot(), HttpClientModule],
-  providers:[Camera, File, Webview]
+  providers:[Camera, File, Webview,FilePath]
   //....
 })
 ```
@@ -95,12 +98,13 @@ import { Component, OnInit } from '@angular/core;
 
 Importações necessárias 
 ```ts
-import {Component, OnInit, ChangeDetectorRef} from @angular/core;
-import { Camera, CameraOptions, PictureSourceTyoe} from '@ionic-native/Camera/ngx'
-import { ActionSheetController, Platform } from @ionic/angular
+import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import { Camera, CameraOptions, PictureSourceType} from '@ionic-native/Camera/ngx'
+import { ActionSheetController, Platform } from '@ionic/angular'
 // Action Sheet Controller é uma caixa de diálogo que exibe um conjunto de opções
 import { File, FileEntry } from '@ionic-native/File/ngx';
-import {HttpClient} from @angular/common/http';
+import { FilePath } from '@ionic-native/file-path/ngx'
+import {HttpClient} from '@angular/common/http';
 import {WebView} from '@ionic-native/ionic-webview/ngx';
 import { Storage } from '@ionix/storage';
 import { finalize } from 'rxjs/operators';
@@ -114,10 +118,8 @@ constructor(
   private http: HttpClient,
   private webview: WebView,
   private actionSheetController: ActionSheetController,
-  private toastController: ToastController,
   private storage: Storage,
   private plt: Platform,
-  private loadingController: LoadingController,
   private ref: ChangeDetectorRef, 
   private filePath: FilePath,
 )
@@ -128,7 +130,7 @@ constructor(
 
 Array para armazenar as imagens
 ```ts
-  images=[],
+  images=[];s
 ```
 
 Se a platforma estiver pronta iniciaremos nossa função para carregar os dados do Storage.
@@ -195,44 +197,44 @@ Selecionar as imagens
 ```js 
 async selectImages(){
   const actionSheet = await this.actionSheetController.create({
-    header: "Select Image Source",
-    buttons:[{
-      text:'Load form Library',
-      handler: () ->{
-        this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
+      header: "Select Image Source",
+      buttons:[{
+        text:'Load form Library',
+        handler: () =>{
+          this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
+        }
+      },
+      {
+        text:'Use Camera',
+        handler: () => {
+          this.takePicture(this.camera.PictureSourceType.CAMERA);
+        }
+      },
+      {
+        text:'Cancel',
+        role:'cancel'
       }
-    },
-    {
-      text:'Use Camera',
-      handler: () => {
-        this.takePicture(this.camera.PictureSourceTyoe.CAMERA);
-      }
-    },
-    {
-      text:'Cancel,
-      role:'cancel'
-    }
-    ]
-  });
-  await actionSheet.present();
+      ]
+    });
+    await actionSheet.present();
 }
 ```
 Capturar a imagem
 ```ts
 takePicture(sourceType: PictureSourceType) {
- var options: CameraOptions = {
-  quality: 100,
-  sourceType: sourceType,
-  saveToPhotoAlbum: false,
-  correctOrientation: true
- };
- 
- this.camera.getPicture(options).then(imagePath => {
-  var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1;
-  var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1;
-  this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
- });
-}
+    var options: CameraOptions = {
+     quality: 100,
+     sourceType: sourceType,
+     saveToPhotoAlbum: false,
+     correctOrientation: true
+    };
+    
+    this.camera.getPicture(options).then(imagePath => {
+     var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
+     var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+     this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+    });
+   }
 ```
 * Normalmente utilizamos a versão base64 de uma string. O problema é que se você armazenar muitas imagens codificadas em base64 no banco de dados pode ficar muito grande, então, para melhorar isso, simplesmente queremos armazenar a referência. Por isso estamos utilizando o FILE_URI real da imagem.
 
@@ -259,29 +261,29 @@ copyFileToLocalDir(namePath, currentName, newFileName){
 Armazenamento local da referência
 ```ts
 updateStoredImages(name){
- this.storage.get(STORAGE_KEY).then(images => {
-  let arr = JSON.parse(images);
-  if(!arr) {
-   let newImages = [name];
-   this.storage.set(STORAGE_KEY), JSON.stringify(newImages));
-  } else {
-   arr.push(name);
-   this.storage.set(STORAGE_KEY, JSON.stringify(arr));
-  }
-  
-  let filePath = this.file.dataDirectory + name;
-  let resPath = this.pathForImage(filePath);
-  
-  let newEntry = {
-   name: name,
-   path: resPath,
-   filePath: filePath
-  }
-  
-  this.images = [newEntry, ...this.images];
-  this.ref.detectChanges(); //trigger change detection cycle
- });
-}
+    this.storage.get(STORAGE_KEY).then(images => {
+     let arr = JSON.parse(images);
+     if(!arr){
+      let newImages = [name];
+      this.storage.set((STORAGE_KEY), JSON.stringify(newImages));
+     } else {
+      arr.push(name);
+      this.storage.set(STORAGE_KEY, JSON.stringify(arr));
+     }
+     
+     let filePath = this.file.dataDirectory + name;
+     let resPath = this.pathForImage(filePath);
+     
+     let newEntry = {
+      name: name,
+      path: resPath,
+      filePath: filePath
+     }
+     
+     this.images = [newEntry, ...this.images];
+     this.ref.detectChanges(); //trigger change detection cycle
+    });
+   }
 ```
 
 Deletar imagem
