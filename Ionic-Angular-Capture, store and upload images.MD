@@ -1,9 +1,11 @@
 # Ionic 
 ## Angular
 
-### Capturar, salvar localmente e subir para as nuvens
+### Capturar, salvar localmente e Upload
 
-Conteudo extraído de https://www.youtube.com/watch?v=4XiBXFDXesg&t=942s
+Conteudo extraído de: 
+ * https://www.youtube.com/watch?v=4XiBXFDXesg&t=942s
+ * https://golb.hplar.ch/2017/02/Uploading-pictures-from-Ionic-2-to-Spring-Boot.html
 
 O que vamos fazer:
   * Capture imagens usando a câmera ou biblioteca de fotos
@@ -304,6 +306,49 @@ deleteImage(imgEntry, position){
  });
 }
 ```
+
+Subir a imagem utilizando post
+```ts
+startUpload(imgEntry){
+ this.file.resolveLocalFilesystemUrl(imgEntry.filepath)
+ .then(entry => {
+  (<FileEntry>entry).file(file => this.readFile(file))
+ })
+ .catch(err => {
+  console.log('Error while reading file.');
+ });
+}
+
+readFile(file:any){
+ const reader = new FileReader();
+ reader.onloadend = () =>{
+  const formData = new FormData();
+  const ImgBlob = new Blob([reader.result], {
+   type.file.type
+  });
+  formData.append('file', imgBlob, file.name);
+  this.uploadImageData(formData);
+ };
+ reader.readAsArrayBuffer(file);
+}
+
+async uploadImageData(formData: FormData){
+ this.http.post('http://api.com/upload', formData)
+  .pipe(
+   finalize(() =>{
+    console.log("Finished upload");
+   });
+   )
+   .subscribe(res => {
+    if(res['success']){
+     console.log('File upload complete');
+    } else {
+     console.log('File upload failed');
+    }
+   }):
+}
+```
+ *
 
 
  
