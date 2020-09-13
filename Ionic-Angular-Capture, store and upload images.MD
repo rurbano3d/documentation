@@ -91,6 +91,39 @@ import { Component, OnInit } from '@angular/core;
   }
 ```
 
+Importações necessárias 
+```ts
+import {Component, OnInit, ChangeDetectorRef} from @angular/core;
+import { Camera, CameraOptions, PictureSourceTyoe} from '@ionic-native/Camera/ngx'
+import { ActionSheetController, Platform } from @ionic/angular
+// Action Sheet Controller é uma caixa de diálogo que exibe um conjunto de opções
+import { File, FileEntry } from '@ionic-native/File/ngx';
+import {HttpClient} from @angular/common/http';
+import {WebView} from '@ionic-native/ionic-webview/ngx';
+import { Storage } from '@ionix/storage';
+import { finalize } from 'rxjs/operators';
+
+const STORAGE_KEY = 'my_images'; 
+
+//constructor
+constructor(
+  private camera: Camera,
+  private file: File,
+  private http: HttpClient,
+  private webview: WebView,
+  private actionSheetController: ActionSheetController,
+  private toastController: ToastController,
+  private storage: Storage,
+  private plt: Platform,
+  private loadingController: LoadingController,
+  private ref: ChangeDetectorRef, 
+  private filePath: FilePath,
+)
+
+
+
+```
+
 Array para armazenar as imagens
 ```ts
   images=[],
@@ -98,9 +131,6 @@ Array para armazenar as imagens
 
 Se a platforma estiver pronta iniciaremos nossa função para carregar os dados do Storage.
 ```ts
-import { Platform } from @ionic/angular
-
-private rlt: Platform //contructor
 
 ngOninit(){
   this.plt.ready().then(() -> {
@@ -112,16 +142,8 @@ ngOninit(){
 Pega imagens do Storage.
 
 ```js 
-import { Storage } from '@ionix/storage';
-import { File, FileEntry } from '@ionic-native/File/ngx';
-import {WebView} from '@ionic-native/ionic-webview/ngx';
-
-const STORAGE_KEY = 'my_images'; // declara logo após as importações
-
-private storage: Storage, private file: File, private webview: WebView, // contructor
-
 loadStoredImage(){
-  // em STORAGE_KEY contém o nome de um arquivo, por ex: img.jpg
+  // em STORAGE_KEY contém o nome de um arquivo,tratamos como um referência.Por ex: img.jpg, 
   this.storage.get(STORAGE_KEY).then(images => {
     if(images){
       let arr = JSON.parse(images);
@@ -136,8 +158,10 @@ loadStoredImage(){
     }
   });
 }
+```
 
-// Para exibir a imagem precisamos de outro caminho retratado nesta função.
+Para exibir ou manipular uma imagem precisamos converter o caminho.
+```ts
 pathForImage(img){
   if(img === null){
     return '';
@@ -151,21 +175,15 @@ pathForImage(img){
 
 * Porque temos que resolver a URL de uma imagem?
 
-    Quando capturamos uma imagem e movemos para uma pasta do nosso aplicativo, poderiamos 
-  armazenar toda a url para este arquivo. O problema é que algumas partes da URL pode 
-  mudar se o sistema operacional limpar algum cache e mover as coisas de modo que nosso
-  arquivo ainda estará lá, mas o caminho que armazenamos não está mais correto. Portanto 
-  vamos apenas armazenar o nome do arquivo e então podemos utilizar o WebView.convertFileSrc
-  (https://ionicframework.com/docs/core-concepts/webview), para converter o FileSource.
+    Quando capturamos uma imagem e movemos para uma pasta do nosso aplicativo, poderiamos armazenar toda a url para este arquivo. O problema é que algumas partes da URL pode mudar se o sistema operacional limpar algum cache e mover as coisas de modo que nosso arquivo ainda estará lá, mas o caminho que armazenamos não está mais correto. Portanto vamos apenas armazenar o nome do arquivo e então podemos utilizar o WebView.convertFileSrc (https://ionicframework.com/docs/core-concepts/webview), para converter o FileSource.
 
-    No IOS você não tem permissão para utilizar algo que comece com file://, por isso o 
-  WebView.convertFileSrc converte para uma URL especial que você manipular e exibir.
+    No IOS você não tem permissão para utilizar algo que comece com file://, por isso o WebView.convertFileSrc converte para uma URL especial que você manipular e exibir.
 
     Também funciona no ANDROID
 
     Dica: não armazene o caminho errado e converta a URL.
     
-    Conclusão: Para exibir ou manipular uma imagem no seu aplicativo o uso da conversão é essencial. Entretanto para subir sua imagem para as nuvens precisamos utilizar o FileReader e o caminho convertido não funciona para ele, por isso tambem enviamos o caminho "puro".
+    Conclusão: Para exibir ou manipular uma imagem no seu aplicativo o uso da conversão é essencial. Entretanto para subir sua imagem para as nuvens precisamos utilizar o FileReader e o caminho convertido não. POrfunciona para ele, por isso tambem enviamos o caminho "puro".
     ```ts
     let filePath = this.file.dataDirectory + img;
     ```
@@ -197,3 +215,95 @@ async selectImages(){
   await actionSheet.present();
 }
 ```
+Capturar a imagem
+```ts
+takePicture(sourceType: PictureSourceType) {
+ var options: CameraOptions = {
+  quality: 100,
+  sourceType: sourceType,
+  saveToPhotoAlbum: false,
+  correctOrientation: true
+ };
+ 
+ this.camera.getPicture(options).then(imagePath => {
+  var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1;
+  var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1;
+  this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+ });
+}
+```
+* Normalmente utilizamos a versão base64 de uma string. O problema é que se você armazenar muitas imagens codificadas em base64 no banco de dados pode ficar muito grande, então, para melhorar isso, simplesmente queremos armazenar a referência. Por isso estamos utilizando o FILE_URI real da imagem.
+
+Dar um nome único a imagem
+```ts
+createFileName(){
+ var d = new Date(),
+     n = d.getTime(),
+     newFileName = n + ".jpg";
+ return newFileName;
+}
+```
+Copiar a imagem para nosso diretório de dados.
+```ts
+copyFileToLocalDir(namePath, currentName, newFileName){
+ this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName).then(success =>{
+  this.updateStoredImages(newFileName);
+ }, error => {
+  console.log('Error while storing file.');
+ });
+}
+```
+
+Armazenamento local da referência
+```ts
+updateStoredImages(name){
+ this.storage.get(STORAGE_KEY).then(images => {
+  let arr = JSON.parse(images);
+  if(!arr) {
+   let newImages = [name];
+   this.storage.set(STORAGE_KEY), JSON.stringify(newImages));
+  } else {
+   arr.push(name);
+   this.storage.set(STORAGE_KEY, JSON.stringify(arr));
+  }
+  
+  let filePath = this.file.dataDirectory + name;
+  let resPath = this.pathForImage(filePath);
+  
+  let newEntry = {
+   name: name,
+   path: resPath,
+   filePath: filePath
+  }
+  
+  this.images = [newEntry, ...this.images];
+  this.ref.detectChanges(); //trigger change detection cycle
+ });
+}
+```
+
+Deletar imagem
+ * Remova o objeto de nosso images array local
+ * Remova o item do armazenamento
+ * Remova o arquivo real da pasta do nosso aplicativo
+
+```ts
+deleteImage(imgEntry, position){
+ this.images.splice(position,1);
+ 
+ this.storage.get(STORAGE_KEY).then(images =>{
+  let arr = JSON.parse(images);
+  let filtered = arr.filter(name => name != imgEntry.name);
+  this.storage.set(STORAGE_KEY, JSON.stringify(filteres)):
+  
+  var correctPath = imgEntry.filePath.substr(0, imgEntry.filePath.lastIndexOf('/') + 1);
+  
+  this.file.removeFile(correctPath, imgEntry.name).then(res =>{
+   console.log('File removed');
+  });
+ });
+}
+```
+
+
+ 
