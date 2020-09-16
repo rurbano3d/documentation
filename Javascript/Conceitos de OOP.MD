@@ -1,5 +1,3 @@
-# Javascript Modular
-
 ## Breve revisão de conceitos de Javascript OOP
 
 É possível criar objetos de várias maneiras em Javascript. ALgumas delas estão baixo.
