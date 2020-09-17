@@ -68,7 +68,7 @@ Como função mais interna é uma função anônima dentro de outra função an�
   var myOwnObject={
     name: "The own object",
     getName: () =>{
-    vat that = this;
+    var that = this;
       return () =>{
         return that.name;
       } 
