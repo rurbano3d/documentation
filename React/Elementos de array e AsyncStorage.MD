@@ -1,4 +1,4 @@
-#Elementos de array e Async Storage
+# Elementos de array e Async Storage
 
 A idéia neste artigo é lidar com elementos de uma array e como salva-los em um storage.
 Nos exemplos estamos utilizando javascript e o Async storage do React Native.
