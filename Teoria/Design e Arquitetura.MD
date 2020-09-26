@@ -19,6 +19,61 @@ Alguns padrões de arquitetura
 
 Domínio: Qual a área de conhecimento daquele módulo/arquivo.
 
+Exemplo de domínio em DDD:
+
+```
+src
+└── modules
+    └── appointments
+    |   └── services
+    |   └── repositories
+    |   └── entities               
+    └── users
+    |   └── services
+    |   └── repositories
+    |   └── entities 
+    └── shared
+        └── database
+        └── errors
+        └── middlewares
+        └── routes  
+```
+* shared - o que é compartilhado entre mais de um módulo. 
+* repositories - onde fica a regra de negócio
+* services -
+* entities -
+
+Infra: são as ferramentas que escolhemos para se relacionar com nossa camada de domínio.
+```
+src
+└── modules
+    └── appointments
+    |   └── services
+    |   └── repositories
+    |   └── infra
+    |       └── typeorm
+    |           └── entities 
+    └── users
+    |   └── services
+    |   └── repositories
+    |   
+    |   └── infra
+    |       └── typeorm
+    |           └── entities 
+    └── shared
+        └── infra
+        |   └── typeorm(antigo database)
+        |       └── http
+        |           └── middlewares
+        |           └── routes
+        └── errors
+     
+```
+
+* infra - as ferramentas. 
+* http - tudo relacionado a camada de http. o Express por exemplo.Tudo relacionado a protocolo de comunicação.
+* typeorm
+
 
 ## Design
 Responsável pelo design do nível de código.
