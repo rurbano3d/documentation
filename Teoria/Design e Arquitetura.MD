@@ -52,19 +52,23 @@ src
     |   └── repositories
     |   └── infra
     |       └── typeorm
-    |           └── entities 
+    |       |   └── entities 
+    |       └── http
+    |           └── routes 
     └── users
     |   └── services
     |   └── repositories
-    |   
     |   └── infra
     |       └── typeorm
-    |           └── entities 
+    |       |   └── entities 
+    |       └── http
+    |           └── middlewares
+    |           └── routes 
     └── shared
         └── infra
         |   └── typeorm(antigo database)
         |       └── http
-        |           └── middlewares
+        |           
         |           └── routes
         └── errors
      
@@ -74,6 +78,32 @@ src
 * http - tudo relacionado a camada de http. o Express por exemplo.Tudo relacionado a protocolo de comunicação.
 * typeorm
 
+### S.O.L.I.D - Liskov Substitution Principle
+Integrações com banco de dados, bibliotecas ...
+Entender o que é getRepository, Repository do TypeORM
+
+Alguns arquivos ainda estão dependentes da camada de infra. Por isso é responsabilidade da camada de domínio definir quais métodos estes arquivos irão ter, por meio da *Interface*
+
+#### Criando interface de métodos
+Exemplo de um arquivo de interface
+```ts
+import Appointment from '../infra/typeorm/entities/Appointment';
+
+export default interface IAppointmentsRepository {
+  findByDate(date: Date): Promise<Appointment | undefined>;
+}
+```
+
+Como chama-lo 
+```ts
+import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
+
+class AppointmentsRepository extends Repository<Appointment>
+  implements IAppointmentsRepository {}
+```
+
+#### Conceito DTOs (Data Transfers Objects)
+sempre que precisar tipar uma informação composta, utilizada para criar, editar, listar.
 
 ## Design
 Responsável pelo design do nível de código.
