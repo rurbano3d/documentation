@@ -12,6 +12,18 @@ Instalar o Apollo Server e o GraphQL
 yarn add apollo-server graphql
 ```
 
+Instalar o Nodemon como desenvolvimento para live reload do server!
+
+```
+yarn add nodemon -D
+```
+E acrescenta em *package.json*
+```json
+"scripts": {
+    "dev": "npx nodemon src/index.js"
+  },
+```
+
 Vamos iniciar o apollo e iniciar nosso GraphQL
 ```js
 const { ApolloServer, gql } = require("apollo-server");
@@ -34,6 +46,112 @@ server.listen().then(({ url }) => console.log(` 🚀 Server started at ${url}`))
 TypeDefs -> é o schema do graphQL. Onde modelamos os dados, fazemos as queries e mutations
 
 Resolvers ->  é as açoes que as queries e as mutations vão tomar.
+
+No Playground do GraphQL
+```gql
+{
+ hello
+}
+___________
+
+{
+  "data": {
+    "hello": "Hello world"
+  }
+}
+```
+
+Vamos adicionar algumas Entidades simples e aninhadas (nesting)
+```js
+const { ApolloServer, gql } = require("apollo-server");
+
+const typeDefs = gql`
+  type User {
+    _id: ID!
+    name: String!
+    email: String!
+    active: Boolean!
+  }
+
+  type Post {
+    _id: ID!
+    title: String!
+    content: String!
+    author: User!
+  }
+
+  type Query {
+    hello: String
+    users: [User!]!
+    # users: [User]! pode retornar um array vazia[], mas não retorna NULL.
+    # users: [User!]! pode retornar um array vazia[] ou [{}], mas não retorna [NULL].
+  }
+`;
+const resolvers = {
+  Query: {
+    hello: () => "Hello world",
+    users: () => [
+      {
+        _id: String(Math.random()),
+        name: "Rodrigo",
+        email: "rodrigo@gmail.com",
+        active: true,
+      },
+      {
+        _id: String(Math.random()),
+        name: "Rodrigo 2",
+        email: "rodrigo2@gmail.com",
+        active: false,
+      },
+      {
+        _id: String(Math.random()),
+        name: "Rodrigo 3",
+        email: "rodrigo3@gmail.com",
+        active: true,
+      },
+    ],
+  },
+};
+
+const server = new ApolloServer({ typeDefs, resolvers });
+server.listen().then(({ url }) => console.log(` 🚀 Server started at ${url}`));
+```
+
+No Playground do GraphQL
+```gql
+{
+   users{
+    name
+    email
+    active
+  }
+}
+___________
+
+{
+  "data": {
+    "users": [
+      {
+        "name": "Rodrigo",
+        "email": "rodrigo@gmail.com",
+        "active": true
+      },
+      {
+        "name": "Rodrigo 2",
+        "email": "rodrigo2@gmail.com",
+        "active": false
+      },
+      {
+        "name": "Rodrigo 3",
+        "email": "rodrigo3@gmail.com",
+        "active": true
+      }
+    ]
+  }
+}
+```
+
+! -> você esta dizendo que o atributo é obrigatório, caso a informção volte como NULL o playground informa que há um erro.
 
 O que é o Apollo Server?
 https://www.apollographql.com/docs/apollo-server/
