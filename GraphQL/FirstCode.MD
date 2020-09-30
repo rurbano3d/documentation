@@ -116,6 +116,7 @@ const resolvers = {
 const server = new ApolloServer({ typeDefs, resolvers });
 server.listen().then(({ url }) => console.log(` 🚀 Server started at ${url}`));
 ```
+! -> você esta dizendo que o atributo é obrigatório, caso a informção volte como NULL o playground informa que há um erro.
 
 No Playground do GraphQL
 ```gql
@@ -151,7 +152,79 @@ ___________
 }
 ```
 
-! -> você esta dizendo que o atributo é obrigatório, caso a informção volte como NULL o playground informa que há um erro.
+Vamos utilizar um find neste exemplo
+```js
+const { ApolloServer, gql } = require("apollo-server");
+
+const users = [
+  {
+    _id: String(Math.random()),
+    name: "Rodrigo",
+    email: "rodrigo@gmail.com",
+    active: true,
+  },
+  {
+    _id: String(Math.random()),
+    name: "Rodrigo 2",
+    email: "rodrigo2@gmail.com",
+    active: false,
+  },
+  {
+    _id: String(Math.random()),
+    name: "Rodrigo 3",
+    email: "rodrigo3@gmail.com",
+    active: true,
+  },
+];
+
+const typeDefs = gql`
+  type User {
+    _id: ID!
+    name: String!
+    email: String!
+    active: Boolean!
+  }
+
+  type Query {
+    hello: String
+    users: [User!]!
+    getUserByEmail(email: String!): User!
+  }
+`;
+const resolvers = {
+  Query: {
+    users: () => users,
+    getUserByEmail: (_, args) => {
+      return users.find((user) => user.email === args.email);
+    },
+  },
+};
+
+const server = new ApolloServer({ typeDefs, resolvers });
+server.listen().then(({ url }) => console.log(` 🚀 Server started at ${url}`));
+
+```
+
+No Playground do GraphQL
+```gql
+query{
+  getUserByEmail(email: "rodrigo@gmail.com"){
+    name
+    email
+  }
+}
+___________
+
+{
+  "data": {
+    "getUserByEmail": {
+      "name": "Rodrigo",
+      "email": "rodrigo@gmail.com"
+    }
+  }
+}
+```
+
 
 O que é o Apollo Server?
 https://www.apollographql.com/docs/apollo-server/
