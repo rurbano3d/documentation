@@ -15,12 +15,13 @@
   * Menos requisição HTTP quando a estrutura de dados é um pouco mais complexa.
 
 
-Query -  quando você quer pegar dados
+Query -> obter informçãoes
 
-Mutation - quando você quer alterar, criar ou deletar dados
+Mutation -> Manipular dados
 
-Subcription - quando você quer ouvir uma informação em realtime.
+Subcription -> quando você quer ouvir uma informação em realtime.
 
+Scalar Types -> String, Int, Boolean, Float e ID
 
 Diferenças entre REST X GRAPHQL
 
@@ -80,3 +81,4 @@ Fonte: Rocketseat, https://www.youtube.com/watch?v=oD8GqurXZ-0&t=1006s
 Fonte: Código Fonte TV, https://www.youtube.com/watch?v=xbLpIhCsIdg
 Fonte: https://blog.impulso.network/introducao-ao-graphql/#:~:text=GraphQL%20%C3%A9%20uma%20especifica%C3%A7%C3%A3o%20de,como%20um%20recurso%20do%20sistema.&text=Dessa%20forma%2C%20o%20GraphQL%20permite,sistema%20em%20forma%20de%20grafo.
 Fonte: DevPleno ,https://www.youtube.com/watch?v=x6TwzA2yh08
+Fonte: Matheus Silva, https://www.youtube.com/watch?v=7RoHxSGVAdU
