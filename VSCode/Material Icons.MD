@@ -1,4 +1,4 @@
-# Perfumaria no VSCode.
+# Material Icons no VSCode.
 
 Vamos personalizar nossas pastas utilizando a  extensão [Material Icons](https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme)
 
