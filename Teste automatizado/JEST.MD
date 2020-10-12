@@ -59,3 +59,23 @@ Se você estiver utilizando o *tsconfig-paths* para resolver os caminhos, em *je
 ```
 Obs: O Javascript não suporta comentário no JSON, portanto é necessário tirar todos os comentários do arquivos *tsconfig.json*
 
+
+## Coverage
+
+Ferramenta que já vem no Jest, que serve para saber o que falta para testar, o que você já testou, etc.
+
+Dentro de *jest.config.js*
+```js
+collectCoverage: true,
+
+collectCoverageFrom:[
+  '<rootDir>/src/modules/**/services/*.ts'
+],
+  
+coverageDirectory: 'coverage',
+
+coverageReporters:[
+  "text-summary",
+  "lcov",
+],
+```
