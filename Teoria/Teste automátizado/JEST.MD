@@ -1,10 +1,10 @@
-#JEST
+# JEST
 
 Jest é um poderoso Framework de Testes em JavaScript com um foco na simplicidade.
 
 Funciona com projetos usando: Babel, TypeScript, Node, React, Angular, Vue e muito mais!
 
-##Jest no React
+## Jest no React
 
 ```
 yarn add jest -D
