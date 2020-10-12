@@ -11,10 +11,10 @@ yarn add jest -D
 
 yarn jest --init
 ``` 
-Would like to use Jest when running "test" script in "package.json"? - Yes
-Choose the test enviroment that will be used for testing - Node
-Do you want Jest to add coverage reports? - no
-Automatically clear mock calls and instances between every test? - Yes
+- Would like to use Jest when running "test" script in "package.json"? - Yes
+- Choose the test enviroment that will be used for testing - Node
+- Do you want Jest to add coverage reports? - no
+- Automatically clear mock calls and instances between every test? - Yes
 
 É gerado um arquivo *jest.config.js*
 
