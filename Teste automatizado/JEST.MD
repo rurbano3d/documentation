@@ -6,7 +6,7 @@ Funciona com projetos usando: Babel, TypeScript, Node, React, Angular, Vue e mui
 
 ## Jest no React
 
-```
+```shell
 yarn add jest -D
 
 yarn jest --init
