@@ -29,6 +29,11 @@ import AppointmentsRepository from '@modules/appointments/infra/typeorm/reposito
 
 container.registerSingleton<IAppointmentsRepository>('AppointmentsRepository', AppointmentsRepository);
 ```
+Diferença entre *registerSingleton* e *register*.
+> registerSingleton - ele instância a classe apenas uma única vez durante toda ciclo de vida da aplicação 
+> register - toda vez que um arquivo diferente precisar do *repository* ele instância uma nova classe, gerando várias instâncias de uma mesma classe.
+
+[Singleton Pattern](https://www.dofactory.com/javascript/design-patterns/singleton)
 
 Precisamos importar o arquivo acima em algume lugar, neste caso importei ele no arquivo *server.js*
 
@@ -43,14 +48,16 @@ import AppointmentsRepository from '@modules/appointments/infra/typeorm/reposito
 import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
 
 const appointmentsRepository = new AppointmentsRepository();
-const CreateAppointmentService = new CreateAppointmentService(appointmentsRepository);
+const createAppointmentService = new CreateAppointmentService(appointmentsRepository);
 ```
 
 É substituído por 
 ```ts
+import {container} from 'tsyring';
+
 import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
 
-const CreateAppointmentService = new CreateAppointmentService();
+const createAppointmentService = container.resolve(CreateAppointmentService);
 ```
 
 porque dentro de *CreateAppointmentService* eu injetei o repositório *AppointmentsRepository*.
