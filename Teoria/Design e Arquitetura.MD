@@ -94,10 +94,7 @@ export default interface ICreateUserDTO {
 * migrations 
 
 ### S.O.L.I.D - Liskov Substitution Principle
-Integrações com banco de dados, bibliotecas ...
-Entender o que é getRepository, Repository do TypeORM
-
-Alguns arquivos ainda estão dependentes da camada de infra. Por isso é responsabilidade da camada de domínio definir quais métodos estes arquivos irão ter, por meio da *Interface*
+Link do artigo sobre Liskov
 
 #### Criando interface de métodos
 Exemplo de um arquivo de interface
@@ -139,6 +136,16 @@ class CreateAppointmentService {
   }  
  }
 ```
+
+Porém precisamos intânciar o *repository* em algum lugar, como *service* esta em camada de baixo nível e o *repository* que está na camada alto nível utilizamos a DIP para evitar um acoplamento.
+
+![Clean Architecture](https://koenig-media.raywenderlich.com/uploads/2019/06/Clean-Architecture-graph.png)
+
+* services -> Camada verde
+* repository -> Camada rosa
+
+Então vamos instânciar o *repository* em um arquivo da mesma camada que ele. Vamos utilizar o *
+
 ## Injeção de dependência
 Library em React - tsyringe
 https://github.com/microsoft/tsyringe
