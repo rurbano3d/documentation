@@ -9,6 +9,7 @@ Em NodeJs com Typescritp utilizaremos uma library chamada *tsyring*. [Saiba Mais
 Agora precisamos criar um arquivo que fica controlando as injeções de dependência. É ele que diz para o nosso *service* qual *repository* será injetado.
 
 > service - objeto que contém lógica de negócio que não pertence naturalmente a nenhuma entidade.
+
 > repository - objeto que contém lógica de negócio que pertence a uma entidade.
 
 @shared/container/index.ts
@@ -30,7 +31,8 @@ import AppointmentsRepository from '@modules/appointments/infra/typeorm/reposito
 container.registerSingleton<IAppointmentsRepository>('AppointmentsRepository', AppointmentsRepository);
 ```
 Diferença entre *registerSingleton* e *register*.
-> registerSingleton - ele instância a classe apenas uma única vez durante toda ciclo de vida da aplicação 
+> registerSingleton - ele instância a classe apenas uma única vez durante toda ciclo de vida da aplicação.
+
 > register - toda vez que um arquivo diferente precisar do *repository* ele instância uma nova classe, gerando várias instâncias de uma mesma classe.
 
 [Singleton Pattern](https://www.dofactory.com/javascript/design-patterns/singleton)
