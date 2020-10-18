@@ -99,29 +99,8 @@ export default interface ICreateUserDTO {
 ### S.O.L.I.D - Dependency Inversion (Inversão de dependência)
 [Saiba Mais](https://github.com/rurbano3d/documentation/edit/master/Teoria/Dependency%20Inversion%20Principle.MD)
 
-#### Criando interface de métodos
-Exemplo de um arquivo de interface
-```ts
-import Appointment from '../infra/typeorm/entities/Appointment';
-
-export default interface IAppointmentsRepository {
-  findByDate(date: Date): Promise<Appointment | undefined>;
-}
-```
-
-Como chama-lo 
-```ts
-import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
-
-class AppointmentsRepository extends Repository<Appointment>
-  implements IAppointmentsRepository {}
-```
-
-
-
-## Injeção de dependência
-Library em React - tsyringe
-https://github.com/microsoft/tsyringe
+### Injeção de dependência
+[Saiba Mais](https://github.com/rurbano3d/documentation/blob/master/Teoria/Inje%C3%A7%C3%A3o%20de%20depend%C3%AAncia.MD)
 
 
 ## Design
