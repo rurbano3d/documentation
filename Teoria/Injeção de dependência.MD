@@ -31,11 +31,11 @@ import AppointmentsRepository from '@modules/appointments/infra/typeorm/reposito
 container.registerSingleton<IAppointmentsRepository>('AppointmentsRepository', AppointmentsRepository);
 ```
 Diferença entre *registerSingleton* e *register*.
-> registerSingleton - ele instância a classe apenas uma única vez durante toda ciclo de vida da aplicação.
+> registerSingleton - ele instância a classe apenas uma única vez durante toda ciclo de vida da aplicação.[Singleton Pattern](https://www.dofactory.com/javascript/design-patterns/singleton)
 
 > register - toda vez que um arquivo diferente precisar do *repository* ele instância uma nova classe, gerando várias instâncias de uma mesma classe.
 
-[Singleton Pattern](https://www.dofactory.com/javascript/design-patterns/singleton)
+
 
 Precisamos importar o arquivo acima em algume lugar, neste caso importei ele no arquivo *server.js*
 
