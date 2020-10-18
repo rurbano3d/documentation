@@ -1,5 +1,7 @@
 # Clean Code
 
+[More Info](https://github.com/ryanmcdermott/clean-code-javascript)
+
 ### Function arguments (2 or fewer ideally)
 Before aplly Clean Code.
 ```js
