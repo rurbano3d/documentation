@@ -140,7 +140,7 @@ describe('ForgotPassword', () => {
   expect(sendMail).toHaveBeenCalled();
   });
 ```
-No *service* adicionamos o *MailProvider* como uma injeção de dependência.
+No *service* adicionamos o *MailProvider* como uma injeção de dependência. [Veja mais sobre injeção de dependência](https://github.com/rurbano3d/documentation/blob/master/Teoria/Inje%C3%A7%C3%A3o%20de%20depend%C3%AAncia.MD)
 
 ```ts
 import { injectable, inject } from 'tsyringe';
@@ -169,4 +169,30 @@ export default class SendForgotPasswordEmailService {
 }
 
 ```
+Se executarmos o test veremos que irá passar. Sendo assim nosso serviço já esta enviando e-mail para o usuário. Porém temos mais alguns testes a serem feitos.
+É importante validar o e-mail, ou seja, verificar se o email existe, para isso vamos executar um novo teste dento do escopo *ForgotPassword*.
 
+```ts
+import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import SendForgotPasswordEmailService from './SendForgotPasswordEmailService';
+import FakeMailProvider from '@shared/container/providers/MailProvider/fakes/FakeMailProvider';
+
+describe('ForgotPassword', () => {
+  // ...
+  it('should not be able to recover a non-existing user password', async () => {
+    const fakeUsersRepository = new FakeUsersRepository();
+    const fakeMailProvider = new FakeMailProvider();
+
+    const sendForgotPasswordEmailService = new SendForgotPasswordEmailService(
+      fakeUsersRepository,
+      fakeMailProvider,
+    );
+
+    await expect(
+      sendForgotPasswordEmailService.execute({
+        email: 'johndoe@example.com',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+ }
+```
