@@ -14,4 +14,6 @@
 
 ```shell
   yarn add -D prettier prettier-eslint prettier-eslint-cli eslint-plugin-prettier
+```
+
 [Saiba Mais](https://medium.com/@feralamillo/create-react-app-typescript-eslint-and-prettier-699277b0b913)
