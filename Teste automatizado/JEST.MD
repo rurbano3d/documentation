@@ -79,3 +79,35 @@ coverageReporters:[
   "lcov",
 ],
 ```
+
+### Funções do JEST
+
+> spyOn - permite você mockar todo um módulo ou uma função individual do módulo. No seu conceito geral é usado para rastrear chamadas de métodos.
+```ts
+const sendMail = jest.spyOn(fakeMailProvider, 'sendMail');
+```
+
+> beforeEach, afterEach - permite executar um código antes ou depois de cada teste, ou melhor, cada *it*
+
+Neste exemplo intâncias de reposítorios que são criadas em cada *it*, eu consigo reduzir e não repetir o código utilizando a função *beforeEach*
+```ts
+//...
+let fakeUsersRepository: FakeUsersRepository;
+let fakeMailProvider: FakeMailProvider;
+let sendForgotPasswordEmailService: SendForgotPasswordEmailService;
+
+describe('ForgotPassword', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeMailProvider = new FakeMailProvider();
+    
+    sendForgotPasswordEmailService = new SendForgotPasswordEmailService(
+      fakeUsersRepository,
+      fakeMailProvider,
+      
+    );
+  });
+
+  it('should be able to recover the password using the email', async () => {
+    //...
+```
