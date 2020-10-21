@@ -1,7 +1,7 @@
 # SameSite Cookies
 
 #### Cookies
-Cookies são um dos métodos disponíveispara adicionar estado persistente a sites. Os navagadores estão mudando seu comportamento para impor mais padrões de preservação de privacidade.
+Cookies são um dos métodos disponíveis para adicionar estado persistente a sites. Os navegadores estão mudando seu comportamento para impor mais padrões de preservação de privacidade.
 
  * key = value
     * session = a451ds1d54s66kj
@@ -17,13 +17,13 @@ Normalmente os cookies são enviados a cada solicitação havendo sobrecarga e a
 #### Problemas
   * Cookies de terceiros podem manter o estado
       * Cookies não útil para o seu site atual
-          * por ex: quando usamos um link de imagem de um outra site para exibir no nosso site atual. Este link pode enviar um cookies por meio da solicitação da imagem adicionando sobrecarga à solicitação.
+          * por ex: quando usamos um link de imagem de um outro site para exibir no nosso site atual. Este link pode enviar cookies por meio da solicitação da imagem adicionando sobrecarga à solicitação.
       * Cookies utéis
           * por ex: se incorporar um vídeo do youtube no seu site há a opção de "Assistir mais tarde" no player, por meio de um cookie de terceiro no caso, ele salvará automáticamente este vídeo a sua playlist sem precisar acessar a página direta do YouTube.
-  * Ataques de falsificação de solicitação entre sites (CSRF) baseiam-se no fato de que os cookies são anexados a qualquer dolicitação para uma determinada origem, não importa quem inicia a solicitação.
+  * Ataques de falsificação de solicitação entre sites (CSRF) baseiam-se no fato de que os cookies são anexados a qualquer solicitação para uma determinada origem, não importa quem inicia a solicitação.
   
 #### SameSite
-Esta atributo permite declarar se o cookie deve ser restrito a um contexto primário ou do mesmo site.
+Esta atributo permite declarar a qual contexto o cookie pode se referir.
 
   * Same-site - www.web.dev solicita uma imagem em static.web.dev.
   * Cross-site - your-project.github.io solicita uma imagem em my-project.github.io
