@@ -1,4 +1,4 @@
-#SameSite Cookies
+# SameSite Cookies
 
 #### Cookies
 Cookies são um dos métodos disponíveispara adicionar estado persistente a sites. Os navagadores estão mudando seu comportamento para impor mais padrões de preservação de privacidade.
