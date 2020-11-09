@@ -16,3 +16,23 @@ Então você :
 
 
 Entender conceito do reduce. Utilizar ele em situações extremas.
+
+## Infinite Scroll na mão
+```ts
+const scrollRef = useRef<HTMLInputElement>(null);
+
+useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.addEventListener('scroll', () => {
+        const Scroll = scrollRef.current;
+        if (Scroll && Scroll.scrollTop + Scroll.clientHeight >= Scroll.scrollHeight) {
+          console.log('aqui');
+          
+        }
+      });
+    }
+
+    console.log(scrollRef.current);
+  }, []);
+
+```
