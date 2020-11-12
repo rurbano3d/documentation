@@ -5,11 +5,11 @@
  
  ```css
  overflow:hidden
- ``
+ ```
+ Esconde todo elemento que tranborda do elemente pai
  
- Escode todo elemento que tranborda do elemente pai
+ Trabalhando com *oveflow:hidden* e *position:absolute*
  
- Trabalhando com elemento com *oveflow:hidden* e *position:absolute*
 ```css
 .elemento_pai{
   position:relative;
@@ -19,5 +19,4 @@
 .elemento_filho{
   position:absolute;
 }
-
 ```
