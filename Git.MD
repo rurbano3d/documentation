@@ -1,5 +1,11 @@
 # GIT
 
+## Criar e mudar para um novo Branch
+
+```
+git checkout -b nomeDoBranch
+```
+
 ## Merge com outro branch
 
 Exemplo para dar merge do branch *dev* para o *master*
