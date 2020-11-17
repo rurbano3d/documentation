@@ -36,3 +36,15 @@ useEffect(() => {
   }, []);
 
 ```
+
+## Mover Scroll para o início
+
+```js
+ const scrollRef = createRef<HTMLDivElement>();
+  
+const updateScroll = useCallback(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ left: 0 });
+    }
+  }, [scrollRef]);
+```
