@@ -48,3 +48,27 @@ const updateScroll = useCallback(() => {
     }
   }, [scrollRef]);
 ```
+
+## Filtrar ponto
+
+```js
+// const displayPointsFiltered = useCallback(() => {
+  //   const pointsFiltered = points.filter((pointItem) => {
+  //     const filteringPoint = pointItem.filters?.filter((filterItem) => filtersSelected.includes(filterItem.id));
+  //     if (filteringPoint !== undefined && filteringPoint.length > 0) {
+  //       return { ...pointItem };
+  //     }
+  //     return null;
+  //   });
+
+  //   setPoints(pointsFiltered);
+  // }, [filtersSelected, points]);
+
+  // useEffect(() => {
+  //   if (filtersSelected.length) {
+  //     displayPointsFiltered();
+  //   }
+  // }, [filtersSelected, displayPointsFiltered, points]);
+
+  // ______________________________________________ PointSelected
+```
