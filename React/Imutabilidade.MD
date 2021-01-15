@@ -23,12 +23,20 @@ Ao criar um novo objeto e manter o objeto antigo nos conseguimos identificar rap
 
 "Se a referência para o objeto atual é diferente da anterior, então o objeto mudou" - Antonio Milesi Bastos
 
+## Como funciona no código
+
 Em React para "alterarmos" um objeto imutável criamos um novo objeto e copiamos a informação do objeto antigo e adicionamos a informação que será alterada.
 ```js
-const colormap = {abs:'123', right:'red'};
+const prequelStarWars = {name:'Anakin Skywalker', category:'Jedi'};
 
-const NewColormap = { ...colormap, right: 'blue'};
+const classicStarWars = { ...prequelStarWars, category: 'Sith'};
 ```
+
+Quando lidamos com objetos profundamente aninhados, atualiza-los de uma forma imutável pode parecer complexo. Bibliotecas com o [Immer](https://github.com/immerjs/immer) pode ajudar.
+
+## Immer
+[Doc](https://immerjs.github.io/immer/docs/produce)
+
 
 ## Saiba mais:
 [Mutável X Imutável - Corey Schafer](https://www.youtube.com/watch?v=5qQQ3yzbKp8)
