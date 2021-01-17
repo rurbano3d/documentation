@@ -33,10 +33,12 @@ Para isso entra em ação uma técnica chamada COW ([Copy-on-write](https://en.w
 Ao utilizar o setState (setJedi) do React é criado uma nova cópia do objeto. 
 
 ```js
-const setJedi('Obi Wan');
+setJedi('Obi Wan');
 ```
 
 Agora no endereço de memória 158765646 ainda possuimos a informação 'Luke Skywalker' e em outro endereço 58746488 temos a informação 'Obi Wan'. Potanto temos dois endereços de memórias ao invez de ter apenas um como em objeto mutável. O que o React faz é mudar a referência Jedi para o novo objeto criado no endereço de memoria 58746488 com a informação nova e desta forma o react consegue encontrar a mudança e renderizar novamente a tela com esta alteração.
+
+"Se a referência para o objeto atual é diferente da anterior, então o objeto mudou" - Antonio Milesi Bastos
 
 Objeto mutável você altera seu estado sem alterar sua referência.</br>
 Objeto Imutável você cria um novo objeto com a alteração de estado e aponta a referência antiga para este novo objeto.
