@@ -27,13 +27,19 @@ Temos um ojeto criado na referência de memória 158765646 e seu estado (valor) 
 const jedi = 'Luke Skywalker';
 ```
 
-Porém como ela é imutável não podemos alterar ela como acima no exemplo de objeto mutável, é necessário criar um novo objeto.
+Porém como ela é imutável não podemos altera-la como acima no exemplo de objeto mutável, é necessário criar um novo objeto. 
+Para isso entra em ação uma técnica chamada COW ([Copy-on-write](https://en.wikipedia.org/wiki/Copy-on-write)).
+
+Ao utilizar o setState (setJedi) do React é criado uma nova cópia do objeto. 
+
 ```js
-const newJedi = 'Obi Wan';
+const setJedi('Obi Wan');
 ```
 
-Agora no endereço de memória 158765646 ainda possuimos a informação 'Luke Skywalker' e em outro endereço 58746488 temos a informação 'Obi Wan'. Potanto temos dois endereços de memórias ao invez de ter apenas um como em objeto mutável. Mas desta forma o react consegue encontrar a mudança e renderizar novamente a tela com esta alteração.
+Agora no endereço de memória 158765646 ainda possuimos a informação 'Luke Skywalker' e em outro endereço 58746488 temos a informação 'Obi Wan'. Potanto temos dois endereços de memórias ao invez de ter apenas um como em objeto mutável. O que o React faz é mudar a referência Jedi para o novo objeto criado no endereço de memoria 58746488 com a informação nova e desta forma o react consegue encontrar a mudança e renderizar novamente a tela com esta alteração.
 
-Mas como o React entende que newJedi se refere a constante Jedi?
-Ele troca sua referência. 
+Objeto mutável você altera seu estado sem alterar sua referência.</br>
+Objeto Imutável você cria um novo objeto com a alteração de estado e aponta a referência antiga para este novo objeto.
+
+
 
