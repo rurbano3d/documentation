@@ -1,3 +1,53 @@
+Vamos entender um pouco mais sobre estado em React ,passar por alguns conceitos e contar um pouco da minha experiência com estados.
+
+Estado é todo informação que armazenamos dentro de um local na memória. É todo dado que varia com o tempo.</br>
+Por exemplo ao definirmos um contador o seu estado inicial é 0 e conforme vamos mudando seu valor estamos também alterando seu estado.
+
+Dentro de React existem algumas formas de lidar com os estados como useState, ContextAPI, Redux entre outros.
+
+useState é utilizado para valores dinâmicos armazenando informação da aplicação.O React utiliza o conceito de imutabilidade, devido a este conceito o React identifica que o estado foi alterado e causa um nova renderização. Não vamos falar sobre como isso funciona agora, vamos nos concentrar no objetivo dos estados.
+
+Porém o useState so é acessado no seu componente:
+
+```js
+const [filme, setFilme] = useState('nenhum');
+
+setFilme('Star Wars')
+
+return (
+  <div>
+    <span> Meu filme é {filme} </span>
+  </div>
+)
+```
+
+Mas é muito comum precisarmos passar o estado para outros componentes e chamamos isso de props
+
+```js
+   const [frase, setFrase] = useState('');
+
+   setFrase('Luke, eu sou seu pai!')
+   
+  <DarthVader spoiler={frase} />
+```
+```js
+const DarthVader = ({spoiler}) =>{
+   <Luke>
+   {spoiler}
+   </Luke>
+}
+```
+Quando passamos estado de um componente pai para um filho e paramos por ai a utilização do props é o suficiente, pois é uma ligação direta.
+
+Mas quando precisamos passar estados para vários componentes, a utilização de props se torna insustentável. E para evitar esta passagem é comum existir o estado global.
+
+Estado global é um forma de lidar com estado que pode ser acessado por qualquer componente.E aqui que vamos falar sobre o ContextApi.
+ 
+ContextApi é uma api que permite setarmos valores que podem ser acessados de qualquer parte da aplicação.Sem a necessidade de passar uma props.
+
+
+
+
 ## Qual problema o Context API resolve?
 Sempre que precisamos compartilhar dados, estados, atributos ou propriedades, vou tratar tudo como propriedade a partir daqui,  com outros componentes encontramos situações fáceis de lidar e situações mais complexas.
 
