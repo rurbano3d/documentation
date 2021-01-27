@@ -26,6 +26,7 @@ docker run -d --name redis -p 6379:6379 <nome-do-usuario>/redis:devops
 ```
 ## Docker Compose
 Agora vamos subir nossos serviços todos de uma vez utilizando o docker-compose, por meio do *docker-compose.yml*.
+É importante buildar todos os containers antes de executar o docker-compose. 
 
 ```shell
 docker-compose -f docker-compose.yml up -d
