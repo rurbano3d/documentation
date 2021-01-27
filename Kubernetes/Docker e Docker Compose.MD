@@ -6,7 +6,7 @@ Dê permissão para o docker-compose e depois copie ele para o repositório bin 
 ```shell
 chmod +x /usr/local/bin/docker-compose
 
-ls -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 docker-compose --version
 ```
