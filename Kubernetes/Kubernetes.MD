@@ -32,5 +32,5 @@ vi ~/.kube/config
 
 
 Glossário
-```kubectl get nodes``` pega todos os nodes
-```kubectl get pods -n kube-system``` pega todos os pods do namespace kube-system
+```kubectl get nodes``` pega todos os nodes</br>
+```kubectl get pods -n kube-system``` pega todos os pods do namespace kube-system</br>
