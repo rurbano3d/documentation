@@ -20,7 +20,7 @@ Clica em From existing nodes (Custom)
 
 Cluster Name: Curso
 Advanced Options:
- Nginx Ingress : disabled (nos iremos utilizar outro nginx que é o traefic)
+ Nginx Ingress : disabled (nos iremos utilizar outro nginx que é o traefik)
  
  Next
  
