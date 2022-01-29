@@ -10,7 +10,11 @@ User, Address, etc
 
 ### Application
 #### Repository
+Insere Usuário no DB
+Remove Usuário no DB
+etc
 #### Use Cases / Services
+Coloca as Regras de Negócio, ou seja, casos de uso especifico da nossa aplicação.
 
 ### Framework
 #### GRPC
